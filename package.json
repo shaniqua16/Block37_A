@@ -1,30 +1,26 @@
 {
   "name": "block37",
   "version": "1.0.0",
-  "main": "node.js",
+  "description": "",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/shaniqua16/Block37-A.git"
+    "url": "git+https://github.com/shaniqua16/Block37_A.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/shaniqua16/Block37-A/issues"
+    "url": "https://github.com/shaniqua16/Block37_A/issues"
   },
-  "homepage": "https://github.com/shaniqua16/Block37-A#readme",
-  "description": "",
-  "dependencies": {
-    "bcrypt": "^5.1.1",
-    "cors": "^2.8.5",
-    "dotenv": "^16.5.0",
-    "express": "^5.1.0",
-    "jsonwebtoken": "^9.0.2",
-    "morgan": "^1.10.0",
-    "nodemon": "^3.1.10",
+  "homepage": "https://github.com/shaniqua16/Block37_A#readme",
+  "devDependencies": {
     "prisma": "^6.6.0"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.6.0"
   }
 }
