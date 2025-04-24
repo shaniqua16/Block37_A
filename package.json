@@ -19,5 +19,8 @@
   "homepage": "https://github.com/shaniqua16/Block37_A#readme",
   "devDependencies": {
     "prisma": "^6.6.0"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.6.0"
   }
 }
