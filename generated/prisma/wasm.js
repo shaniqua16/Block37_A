@@ -117,6 +117,27 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
+exports.Prisma.UserScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  password: 'password',
+  name: 'name',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ProfileScalarFieldEnum = {
+  id: 'id',
+  bio: 'bio',
+  userId: 'userId'
+};
+
+exports.Prisma.ItemScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description'
+};
+
 exports.Prisma.ReviewScalarFieldEnum = {
   id: 'id',
   createdAt: 'createdAt',
@@ -138,27 +159,6 @@ exports.Prisma.CommentScalarFieldEnum = {
   reviewId: 'reviewId'
 };
 
-exports.Prisma.ProfileScalarFieldEnum = {
-  id: 'id',
-  bio: 'bio',
-  userId: 'userId'
-};
-
-exports.Prisma.UserScalarFieldEnum = {
-  id: 'id',
-  email: 'email',
-  password: 'password',
-  name: 'name',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.ItemScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  discription: 'discription'
-};
-
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -176,11 +176,11 @@ exports.Prisma.NullsOrder = {
 
 
 exports.Prisma.ModelName = {
-  Review: 'Review',
-  Comment: 'Comment',
-  Profile: 'Profile',
   User: 'User',
-  Item: 'Item'
+  Profile: 'Profile',
+  Item: 'Item',
+  Review: 'Review',
+  Comment: 'Comment'
 };
 
 /**
