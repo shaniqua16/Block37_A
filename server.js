@@ -2,6 +2,10 @@
 const express = require ('express');
 const app = express();
 const PORT = process.env.PORT || 3000;
+const path = require("path");
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
 
 app.use(express.json());
 app.use(require("morgan")("dev"));
@@ -15,3 +19,8 @@ app.get('/', (req, res)=> {
 app.listen(PORT, ()=> {
     console.log(`Server is running on port ${PORT}`);
 });
+const auth = require('./auth')
+
+// ...
+
+app.use('/auth', auth)
