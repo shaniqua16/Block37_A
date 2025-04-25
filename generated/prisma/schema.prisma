@@ -14,15 +14,34 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Post {
+model Review {
   id        String   @id @default(uuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  title     String   @db.VarChar(255)
+  rating    Int
   content   String?
   published Boolean  @default(false)
-  author    User     @relation(fields: [authorId], references: [id])
-  authorId  String
+
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId   String
+  item     Item      @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  itemId   String
+  comments Comment[]
+
+  @@unique([userId, itemId])
+}
+
+model Comment {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  content   String?
+  published Boolean  @default(false)
+
+  user     User   @relation(fields: [userId], references: [id])
+  userId   String
+  review   Review @relation(fields: [reviewId], references: [id])
+  reviewId String
 }
 
 model Profile {
@@ -33,9 +52,20 @@ model Profile {
 }
 
 model User {
-  id      String   @id @default(uuid())
-  email   String   @unique
-  name    String?
-  posts   Post[]
-  profile Profile?
+  id        String    @id @default(uuid())
+  email     String    @unique
+  password  String
+  name      String?
+  reviews   Review[]
+  profile   Profile?
+  comments  Comment[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Item {
+  id          String   @id @default(uuid())
+  name        String?
+  discription String?
+  review      Review[]
 }
