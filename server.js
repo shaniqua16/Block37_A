@@ -1,7 +1,8 @@
 
 const express = require ('express');
 const morgan = require('morgan');
-const { PrismaClient } = require('@prisma/client');
+const { PrismaClient } = require('./generated/prisma/client.js');
+const prisma = new PrismaClient();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -32,8 +33,8 @@ app.use((err, req, res, next) => {
 app.listen(PORT, ()=> {
     console.log(`Server is running on port ${PORT}`);
 });
-const auth = require('./api/auth')
+// const auth = require('./api/auth')
 
 
 
-app.use('/auth', auth)
+// app.use('/auth', auth)

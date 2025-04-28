@@ -11,5 +11,5 @@ router.use((req, res, next) => {
     error.status = 404;
     next(error);
 });
-console.log('hello');
+
 module.exports = router; 

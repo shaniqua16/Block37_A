@@ -165,7 +165,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\shaniquawhitley\\OneDrive\\Documents 1\\Documents\\Documents\\Unit4\\block37\\generated\\prisma",
+      "value": "C:\\Users\\shaniqua whitley\\OneDrive\\Documents 1\\Documents\\Documents\\Unit4\\block37\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -179,7 +179,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\shaniquawhitley\\OneDrive\\Documents 1\\Documents\\Documents\\Unit4\\block37\\prisma\\schema.prisma",
+    "sourceFilePath": "C:\\Users\\shaniqua whitley\\OneDrive\\Documents 1\\Documents\\Documents\\Unit4\\block37\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -193,11 +193,12 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
         "fromEnvVar": "DATABASE_URL",
-        "value": "postgresql://shaniquawhitley:@Bettyboo1@localhost:5432/block36_db?schema=public"
+        "value": null
       }
     }
   },
