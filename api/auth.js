@@ -1,58 +1,40 @@
 // api/auth.js
-const express = require('express');
-const router = express.Router();
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const prisma = require('../common');
+const {router} = require('../common');
 
-const SALT_ROUNDS = 10; 
+const {
+    login,
+    register,
+    getUser,
+    update,
+    allUsers,
+    removeUser
+} = require('./authControllers');
+const { route } = require('.');
+
+function middleware(req,res,next){
+    if (req.headers?.authorization?.split('')[1]){
+        next();
+}
+else {
+    res.send('Please login again')
+}
+}
+
+router.post('/register', register);
+router.post('/login', login);
+
+router.get('/users', middleware, allUsers);
+router.get('/users/:id', middleware, getUser);
+
+router.put('/users/:id', middleware, update);
+
+router.delete('/users/:id', middleware, removeUser);
 
 
-router.post('/register', async (req, res, next) => {
     
     
     
-    try {
-        const { username, password } = req.body;
-        // Basic validation
-        if (!username || !password) {
-            return res.status(400).send({ message: 'Username and password are required.' });
-        }
-
-        // Check if user already exists
-        const existingUser = await prisma.user.findUnique({
-            where: { username: username }
-        });
-
-        if (existingUser) {
-            return res.status(409).send({ message: 'Username already taken.' }); // 409 Conflict
-        }
-
-        // Hash the password
-        const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
-
-        // Create the user
-        const newUser = await prisma.user.create({
-            data: {
-                username: username,
-                password: hashedPassword
-            }
-        });
-
-        // Generate a JWT token
-        const token = jwt.sign(
-            { userId: newUser.id, username: newUser.username }, 
-            process.env.JWT_SECRET,                             
-            { expiresIn: '1h' }                                 
-        );
-
-        // Send the token back to the client
-        res.status(201).send({ token }); // 201 Created
-
-    } catch (error) {
-        next(error); 
-    }
-});
+    
 
 
 

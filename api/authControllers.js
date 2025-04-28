@@ -1,6 +1,7 @@
 const {bcrypt,prisma, jwt} =require('../common');
 
-const login = async (res, req) => {
+const login = async (req, res) => {
+    console.log(req.body)
  const {username, password} = req.body;
 const user = await prisma.user.findFirst({
     where:{
@@ -37,7 +38,7 @@ const deleteUser = await prisma.user.delete({
 res.send(deleteUser);
 };
 
-const register= async (res, req) => {
+const register= async (req, res) => {
     const {username, password}=req.body; 
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
@@ -56,7 +57,7 @@ const register= async (res, req) => {
         {expiresIn: "1h"}
     );
     const obj = {
-        user,
+        registerUser,
         token
     };
     res.json(obj)
@@ -75,7 +76,7 @@ const allUsers = async (req, res) => {
     }
   };
 
-  const userGet = async (res, req) => {
+  const userGet = async (req, res) => {
     const id = Number(req.params.id);
     const user = await prisma.user.findFirst({
         where: {
@@ -85,7 +86,7 @@ const allUsers = async (req, res) => {
     res.send(user);    
 };
 
-  const update = async (res, req) => {
+  const update = async (req, res) => {
     const id = Number(req.params.id);
     const {username, password}= req.body;
     const salt = await bcrypt.genSalt(10);
