@@ -1,3 +1,4 @@
+
 const {bcrypt,prisma, jwt} =require('../common');
 
 const login = async (req, res) => {
@@ -76,54 +77,37 @@ const allUsers = async (req, res) => {
     }
   };
 
-  const userGet = async (req, res) => {
+  const getUser = async (req, res) => {
     const id = Number(req.params.id);
     const user = await prisma.user.findFirst({
         where: {
             id
         },
     });
-    res.send(user);    
+    if(user){
+        res.send(user);
+    }    
 };
 
-  const update = async (req, res) => {
-    const id = Number(req.params.id);
-    const {username, password}= req.body;
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-    const updateUser = await prisma.user.findFirst({
-        where: {
-            id
-        },
-    });
-    try {
-        if (updateUser){
-            const updateProfile = await prisma.user.update({
-                where: {
-                    id
-                },
-                data: {
-                    username,
-                    password: hashedPassword
-                },
-            });
-            if (updateProfile){
-                res.send(updateProfile);
-                return;
-            }
-            else {
-                res.send('User did not update');
-                return;
-            }
-        }
-        
-    } catch (e) {
-       res.send(e); 
-       return;
-    }
-    res.send(updateUser);
-  };
 
-  module.exports= {login, removeUser, register, allUsers, userGet, update};
+const user = async (req, res, next) => {
+try{
+const userId = await prisma.user.findUnique({
+    where: {id: req.user.id},
+    select: {
+        id: true,
+        username: true,
+    }
+});
+if (!userId){
+    return res.status(404).send({ message: 'User not found.' });
+}
+res.send(userId);
+}
+catch(error){
+    next(error);
+}
+}
+  module.exports= {login, removeUser, register, allUsers, getUser, user};
 
   
