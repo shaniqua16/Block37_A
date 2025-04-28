@@ -3,15 +3,17 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const prisma = require('../common')
+const prisma = require('../common');
 
 const SALT_ROUNDS = 10; 
 
 
 router.post('/register', async (req, res, next) => {
+    
+    
+    
     try {
         const { username, password } = req.body;
-
         // Basic validation
         if (!username || !password) {
             return res.status(400).send({ message: 'Username and password are required.' });
@@ -39,9 +41,9 @@ router.post('/register', async (req, res, next) => {
 
         // Generate a JWT token
         const token = jwt.sign(
-            { userId: newUser.id, username: newUser.username }, // Payload: Data to include in the token
-            process.env.JWT_SECRET,                             // Secret key from .env
-            { expiresIn: '1h' }                                 // Token expiration time (e.g., 1 hour)
+            { userId: newUser.id, username: newUser.username }, 
+            process.env.JWT_SECRET,                             
+            { expiresIn: '1h' }                                 
         );
 
         // Send the token back to the client
