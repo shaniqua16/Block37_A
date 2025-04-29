@@ -4,39 +4,38 @@ const {bcrypt,prisma, jwt} =require('../common');
 const login = async (req, res) => {
     console.log(req.body)
  const {username, password} = req.body;
-const user = await prisma.user.findFirst({
+const user = await prisma.user.findUnique({
     where:{
         username
     },
 });
+if (!user) {
+    return res.status(401).send({ message: 'Invalid credentials.' }); // 401 Unauthorized
+}
+
 const match = await bcrypt.compare(password, user?.password);
    if (match){
     const token = jwt.sign(
         {
-        username
+            userId: user.id,
+        username: user.username
     },
     process.env.JWT_SECRET,
     {expiresIn: "1h"}
 );
 const obj = {
-    user,
-    token
+    message: "Login successful!", 
+    token: token,
+    user: {
+        id: user.id,
+        username: user.username
+    }
 };
 res.send (obj);
    }
    else {
     res.send('Wrong username or password')
    }
-};
-
-const removeUser= async (req, res) => {
-const id = Number(req.params.id);
-const deleteUser = await prisma.user.delete({
-    where: {
-        id
-    },
-})
-res.send(deleteUser);
 };
 
 const register= async (req, res) => {
@@ -52,14 +51,18 @@ const register= async (req, res) => {
     if (registerUser){
         const token = jwt.sign(
             {
-            username
+                userId: registerUser.id,
+            username: registerUser.username
         },
         process.env.JWT_SECRET,
         {expiresIn: "1h"}
     );
     const obj = {
-        registerUser,
-        token
+        message: "Registration successful!", 
+     token: token,
+     user: { 
+         id: registerUser.id,
+         username: registerUser.username}
     };
     res.json(obj)
     }
@@ -68,38 +71,17 @@ const register= async (req, res) => {
     }
 };
 
-const allUsers = async (req, res) => {
-    const users = await prisma.user.findMany();
-    if (users) {
-      res.send(users);
-    } else {
-      res.send("Table is empty");
-    }
-  };
-
-  const getUser = async (req, res) => {
-    const id = Number(req.params.id);
-    const user = await prisma.user.findFirst({
-        where: {
-            id
-        },
-    });
-    if(user){
-        res.send(user);
-    }    
-};
-
 
 const user = async (req, res, next) => {
 try{
-const userId = await prisma.user.findUnique({
+const loggedInUser = await prisma.user.findUnique({
     where: {id: req.user.id},
     select: {
         id: true,
         username: true,
     }
 });
-if (!userId){
+if (!loggedInUser){
     return res.status(404).send({ message: 'User not found.' });
 }
 res.send(userId);
@@ -108,6 +90,6 @@ catch(error){
     next(error);
 }
 }
-  module.exports= {login, removeUser, register, allUsers, getUser, user};
+  module.exports= {login, register, user};
 
   
