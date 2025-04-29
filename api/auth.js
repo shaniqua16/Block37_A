@@ -5,10 +5,7 @@ const {jwt,router} = require('../common');
 const {
     login,
     register,
-    user,
-    getUser,
-    allUsers,
-    removeUser
+    user
 } = require('./authControllers');
 
 async function middleware(req,res,next){

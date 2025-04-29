@@ -1,27 +1,30 @@
-const { empty } = require("@prisma/client/runtime/library");
-const bcrypt = require('bcrypt');
-const { prisma } = require("./common");
+
+// const { PrismaClient } = require('@prisma/client');
+// const prisma = new PrismaClient();
+
+const { prisma } = require("../common");
 
 async function main() {
     console.log('Seeding started...');
+    await prisma.item.createMany({
+        data: [
+            { name: 'Laptop Pro X', description: 'High-end laptop for professionals.' },
+            { name: 'Coffee Mug', description: 'Keeps your coffee warm.' },
+            { name: 'The Great Novel', description: 'A captivating story.' },
+            { name: 'Local Cafe', description: 'Best coffee in town.' },
 
-     // --- Create Users ---
-    const saltRounds = 10;
-    const password = 'password123'; 
-  const hashedPassword = await bcrypt.hash(password, saltRounds);
-  console.log('Hashed Password:', hashedPassword);
-
-  const user1 = await prisma.user.create({
-    data:{
-        email: 'Kev@emai.com',
-        password: hashedPassword,
-        name: 'Kev',
-    profile: {
-        create: {
-            bio: 'Loves to code'
-            },
-        },
-    },
+        ],
+        skipDuplicates: true, // Don't throw error if item already exists
     });
+    console.log('Seeding completed.');
 }
+
+main()
+    .catch((e) => {
+        console.error(e);
+        process.exit(1);
+    })
+    .finally(async () => {
+        await prisma.$disconnect();
+    });
 
