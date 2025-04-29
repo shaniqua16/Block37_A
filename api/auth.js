@@ -49,4 +49,4 @@ router.get('/me', middleware,user );
 
 
 
-module.exports = router;
+module.exports = {router, middleware};

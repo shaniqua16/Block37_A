@@ -1,16 +1,18 @@
 const express = require('express');
-const router = express.Router();
+const mainRouter = express.Router();
 
-const authRouter = require('./auth');
+const authExports = require('./auth');
 const itemsRouter = require('./items');
+// const reviewsRouter = require('./reviews');
 
-router.use('/auth', authRouter);
-router.use('/items', itemsRouter);
+mainRouter.use('/auth', authExports.router);
+mainRouter.use('/items', itemsRouter);
+// mainRouter.use('/reviews', reviewsRouter);
 
-router.use((req, res, next) => {
+mainRouter.use((req, res, next) => {
     const error = new Error('Not found');
     error.status = 404;
     next(error);
 });
 
-module.exports = router; 
+module.exports = mainRouter; 

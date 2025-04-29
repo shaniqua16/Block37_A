@@ -1,6 +1,6 @@
 const {router} = require('../common');
 const {getAllItems, getIemsById} = require('./itemsController');
-const {getAllReviewsForItem, postReview, getReviewById} = require('./reviewsControllers');
+const {getAllReviewsForItem, postReview, getReviewById} = require('./reviewsController');
 const {middleware} = require('./auth');
 
 
