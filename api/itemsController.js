@@ -1,6 +1,6 @@
 const {prisma} =require('../common');
 
-const getAllItems = async(req, res) =>{
+const getAllItems = async(req, res,next) =>{
 try {
     const items = await prisma.item.findMany();
     res.send(items);
@@ -11,10 +11,8 @@ try {
 
 const getIemsById = async (req,res, next) => {  
 try {
-    const itemId = parseInt(req.params.itemsId);
-    // if (isNaN(itemId)) {
-    //     return res.status(400).send({ message: 'Invalid Item ID format.' });
-    // }
+    const itemId = (req.params.itemsId);
+
 
     const item = await prisma.item.findUnique({
         where: {id: itemId}
@@ -26,6 +24,6 @@ try {
 } catch (error) {
     next(error);
 }
-}
+};
 
 module.exports = {getAllItems, getIemsById};
