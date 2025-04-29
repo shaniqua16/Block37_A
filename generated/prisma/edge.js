@@ -193,11 +193,12 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
         "fromEnvVar": "DATABASE_URL",
-        "value": "postgresql://shaniquawhitley:@Bettyboo1@localhost:5432/block36_db?schema=public"
+        "value": null
       }
     }
   },
