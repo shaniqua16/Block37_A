@@ -3,20 +3,12 @@ const {prisma} = require('../common');
 const getAllReviewsForItem = async (req,res,next) => {
     try{
     const itemId = req.params.itemId;
-    const itemExist = await prisma.item.findUnique({
-        where: {
-            id: itemId
-        },
-        select: {
-            id: true
-        }
-    });
-    if (!itemExist){
-        return res.send({message: "Item does not exist"});
-    }
+    const reviewId = req.params.id;
     const reviews = await prisma.review.findMany({
         where: {
-            id: itemId
+            id: reviewId,
+            itemId: itemId
+        
         },
     })
     res.send(reviews);
@@ -29,9 +21,9 @@ const postReview = async (req,res,next) => {
     try{ 
     const itemId = req.params.itemId;
     const userId = req.user.userId;
-    const {text,rating} = req.body;
+    const {content,rating} = req.body;
 
-    if (!text || rating === undefined) {
+    if (!content || rating === undefined) {
         return res.status(400).send({ message: 'Review text and rating are required.' });
     }
     if (typeof rating !== 'number' || !Number.isInteger(rating) || rating < 1 || rating > 5) {
@@ -47,7 +39,7 @@ const postReview = async (req,res,next) => {
     }
     const newReview = await prisma.review.create({
         data: {
-            text: text,
+            content: content,
             rating: rating,
             userId: userId, // Link to the logged-in user
             itemId: itemId  // Link to the item being reviewed
@@ -70,10 +62,11 @@ const postReview = async (req,res,next) => {
 const getReviewById= async (req,res,next) => {
     try{
         const {itemId, reviewId} = req.params;
-        const review = await prisma.review.findUnique({
+        const review = await prisma.review.findFirst({
             where:{
             id: reviewId,
-                itemId:itemId
+            itemId: itemId
+    
             },
             include: {
                 user:{

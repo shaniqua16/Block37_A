@@ -6,14 +6,12 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "server": "nodemon server.js",
-    "dev": "nodemon server.js"
-    
+    "dev": "nodemon server.js",
+    "studio": "prisma studio"
   },
-
-"prisma": {
-  "seed": "node prisma/seed.js"
-},
-
+  "prisma": {
+    "seed": "node prisma/seed.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/shaniqua16/Block37_A.git"
@@ -34,6 +32,7 @@
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.0",
-    "nodemon": "^3.1.10"
+    "nodemon": "^3.1.10",
+    "studio": "^0.13.5"
   }
 }
