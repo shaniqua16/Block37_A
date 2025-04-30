@@ -4,10 +4,12 @@ const mainRouter = express.Router();
 const authExports = require('./auth');
 const itemsRouter = require('./items');
 const reviewsRouter = require('./reviews');
+const userRouter = require('./users');
 
 mainRouter.use('/auth', authExports.router);
 mainRouter.use('/items', itemsRouter);
 mainRouter.use('/reviews', reviewsRouter);
+mainRouter.use('/users', userRouter);
 
 mainRouter.use((req, res, next) => {
     const error = new Error('Not found');

@@ -95,8 +95,12 @@ const getReviewById= async (req,res,next) => {
 const getMyReviews = async (req,res,next)=> {
     try{
     const userId= req.user.userId;
+   
+
     const reviews= await prisma.review.findMany({
-        where:{userId: userId}
+        where:{userId: userId
+        },
+        
     })
      res.send(reviews);
     }catch(error){
@@ -107,11 +111,11 @@ const getMyReviews = async (req,res,next)=> {
 const updateReview = async (req,res,next) => {
     try{ 
     const itemId = req.params.itemId;
-    const urlUserId = req.params.userId;
+    const {userId:paramUserId,reviewId } = req.params;
     const myId = req.user.userId;
     const {content, rating} = req.body;
 
-    if (urlUserId !== myId) {
+    if (paramUserId !== myId) {
         return res.status(400).send({message:'you can only update your own reviews'})
     }
 
@@ -126,26 +130,55 @@ const updateReview = async (req,res,next) => {
 
 
 
-    const update = await prisma.review.update({
+    const update = await prisma.review.findUnique({
         where: {
-            itemId: itemId,
+            userId: myId,
             id: reviewId
-        },
-        data:{
-            content: content,
-            rating: rating
         }
     });
-    res.send(update);
+    const updatedData= {};
+    if (content !== undifined){
+        updatedData.content = content;
+    }
+    if (rating !== undefined){
+        updatedData.rating = rating;
+    }
+    const updatedComplete = await prisma. review.update({
+        where:{
+            id:reviewId,
+            userId: myId,
+        },
+        data: updatedData
+    });
+
+    
+    res.send(updatedComplete);
 }catch(error){
     next(error);
 }
 };
 
+const deleteReview = async (req) => {
+    const {reviewId}= req.params;
+
+    const userId = req.user.userId;
+try{
+        const deletedCommplete = await prisma.review.delete({
+            where:{
+                id:reviewId,
+                userId: userId
+            }
+        });
+        res.send(deletedCommplete);
+    }
+    catch(error){
+        next(error);
+    }
+}
 
 
 
-module.exports = {getAllReviewsForItem, postReview, getReviewById, getMyReviews, updateReview};
+module.exports = {getAllReviewsForItem, postReview, getReviewById, getMyReviews, updateReview, deleteReview};
 
 
 
