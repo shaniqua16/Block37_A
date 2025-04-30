@@ -74,8 +74,9 @@ const register= async (req, res) => {
 
 const user = async (req, res, next) => {
 try{
+    const userId = req.user.userId;
 const loggedInUser = await prisma.user.findUnique({
-    where: {id: req.user.id},
+    where: {id: userId},
     select: {
         id: true,
         username: true,
