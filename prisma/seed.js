@@ -22,7 +22,7 @@ async function main() {
         data:
             {   
             username: 'Harley',
-            password: await bcrypt.hash('password1234', 10),
+            password: await bcrypt.hash('CaneCorsoIsTheBestDogBreed', 10),
             }
             });
     const user3= await prisma.user.create({
