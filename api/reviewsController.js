@@ -95,10 +95,10 @@ const getReviewById= async (req,res,next) => {
 const getMyReviews = async (req,res,next)=> {
     try{
     const userId= req.user.userId;
-    const reviews= req.review.findMany({
+    const reviews= await prisma.review.findMany({
         where:{userId: userId}
     })
-    return res.send(reviews);
+     res.send(reviews);
     }catch(error){
         next(error);
     }
@@ -145,7 +145,7 @@ const updateReview = async (req,res,next) => {
 
 
 
-module.exports = {getAllReviewsForItem, postReview, getReviewById};
+module.exports = {getAllReviewsForItem, postReview, getReviewById, getMyReviews, updateReview};
 
 
 
