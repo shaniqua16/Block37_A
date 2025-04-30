@@ -1,5 +1,5 @@
-const {router} = require('../common'); 
-
+const router = require("express").Router(); 
+const jwt = require("jsonwebtoken");
 const { getMyReviews} = require('./reviewsController');
 
 async function middleware(req, res, next) {

@@ -1,4 +1,4 @@
-const {router} = require('../common');
+const router = require("express").Router();
 const {getAllItems, getIemsById} = require('./itemsController');
 const {getAllReviewsForItem, postReview, getReviewById, updateReview} = require('./reviewsController');
 const {middleware} = require('./auth');
