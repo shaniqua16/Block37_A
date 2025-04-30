@@ -92,14 +92,64 @@ const getReviewById= async (req,res,next) => {
     }
 };
 
+const getMyReviews = async (req,res,next)=> {
+    try{
+    const userId= req.user.userId;
+    const reviews= req.review.findMany({
+        where:{userId: userId}
+    })
+    return res.send(reviews);
+    }catch(error){
+        next(error);
+    }
+};
+
+const updateReview = async (req,res,next) => {
+    try{ 
+    const itemId = req.params.itemId;
+    const urlUserId = req.params.userId;
+    const myId = req.user.userId;
+    const {content, rating} = req.body;
+
+    if (urlUserId !== myId) {
+        return res.status(400).send({message:'you can only update your own reviews'})
+    }
+
+    if (rating !== undefined && (typeof rating !== 'number' || !Number.isInteger(rating) || rating<1 || rating >5)){
+        return res.status(400).send({message: 'Rating must be a number between 1 and 5'})
+    }
+
+    if (content !== undefined && (typeof content !== 'string')){
+        return res.status(400).send({message: 'please type a review'})
+    }
+    
+
+
+
+    const update = await prisma.review.update({
+        where: {
+            itemId: itemId,
+            id: reviewId
+        },
+        data:{
+            content: content,
+            rating: rating
+        }
+    });
+    res.send(update);
+}catch(error){
+    next(error);
+}
+};
+
+
+
+
 module.exports = {getAllReviewsForItem, postReview, getReviewById};
 
 
 
-// const updateReview = async (req,res,nex) => {
-    // const itemId = req.params.itemId;
-//     const update = await prisma.review.update();
-// };
+
 
 // const deleteReview = async (req) => {
 //     const review = await prisma.review.delete();
