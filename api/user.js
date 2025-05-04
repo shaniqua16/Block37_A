@@ -1,5 +1,5 @@
 // api/users.js
-const { router } = require('../common'); 
+const router = require("express").Router();
 const { middleware } = require('./auth'); 
 const { updateReview, deleteReview } = require('./reviewsController'); 
 
